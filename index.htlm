@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acrylic Blur Website</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+    }
+    .acrylic {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1;
+    }
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    .nav-tab {
+      position: relative;
+      margin: 0 1.5rem;
+      font-size: 1.25rem;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .nav-tab:hover {
+      color: #ff6200;
+    }
+    .nav-tab::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 4px;
+      background: #ff6200;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #ff6200, 0 0 20px #ff6200;
+      transition: width 0.3s ease;
+    }
+    .nav-tab:hover::after {
+      width: 100%;
+    }
+    .nav-tab.active {
+      color: #ff6200;
+      text-shadow: 0 0 10px #ff6200, 0 0 20px #ff6200;
+    }
+    .nav-tab.active::after {
+      width: 100%;
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-top: 6rem;
+      min-height: calc(100vh - 6rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .title {
+      font-size: 4rem;
+      color: #ff6200;
+      text-shadow: 0 0 20px #ff6200, 0 0 40px #ff6200;
+      transition: transform 0.3s ease, scale 0.3s ease;
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border: none;
+      outline: none;
+    }
+    .title:hover {
+      transform: scale(1.2);
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+    .continue-btn {
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      font-size: 1.25rem;
+      color: #fff;
+      background: #ff6200;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px #ff6200, 0 0 30px #ff6200;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .continue-btn:hover {
+      background: #e55a00;
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #ff6200, 0 0 50px #ff6200;
+    }
+    .second-page {
+      font-size: 2rem;
+      color: #ff6200;
+      text-shadow: 0 0 20px #ff6200;
+      font-family: 'Arial', sans-serif;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="acrylic"></div>
+  <div class="nav-bar">
+    <div class="nav-tab active" onclick="showPage('first-page')">Home</div>
+    <div class="nav-tab" onclick="showPage('second-page')">Second Page</div>
+  </div>
+  <div class="content">
+    <div id="first-page">
+      <h1 class="title" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-axis="x">EYE X</h1>
+      <button class="continue-btn" onclick="showPage('second-page')">Continue</button>
+    </div>
+    <div id="second-page" class="hidden">
+      <h1 class="second-page">Welcome to the Second Page</h1>
+    </div>
+  </div>
+
+  <script>
+    VanillaTilt.init(document.querySelector(".title"), {
+      max: 25,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.5,
+      axis: "x"
+    });
+
+    function showPage(pageId) {
+      document.querySelectorAll('#first-page, #second-page').forEach(page => {
+        page.classList.add('hidden');
+      });
+      document.getElementById(pageId).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`.nav-tab[onclick="showPage('${pageId}')"]`).classList.add('active');
+    }
+  </script>
+</body>
+</html>
